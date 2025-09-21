@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notass Josept</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #fff8dc, #ffe4b5, #fff8dc);
+      background-size: 200% 200%;
+      animation: gradientShift 15s ease infinite;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .welcome {
+      text-align: center;
+      padding: 40px;
+      background: #fffaf0;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border: 3px dashed #FFD233;
+      max-width: 90vw;
+      width: 400px;
+      animation: modalFadeIn 0.5s ease;
+    }
+
+    .welcome h1 {
+      font-size: 28px;
+      color: #e69f00;
+      margin-bottom: 20px;
+    }
+
+    .welcome button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #ffd233;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .welcome button:hover {
+      background-color: #fcbf49;
+    }
+
+    
+    #main-content {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    #main-content.visible {
+      display: flex;
+      opacity: 1;
+    }
+
+    @keyframes borderColorShift {
+      0% {
+        border-color: #800080; /* morado */
+      }
+      33% {
+        border-color: #FFD233; /* amarillo */
+      }
+      66% {
+        border-color: #ffffff; /* blanco */
+      }
+      100% {
+        border-color: #800080; /* morado */
+      }
+    }
+
+    .card {
+      background: #fffaf0;
+      padding: 30px 40px 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 600px;
+      width: 90vw;
+      border: 3px dashed #800080;
+      animation: borderColorShift 6s linear infinite;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .emoji-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .emoji-flowers span {
+      font-size: 80px;
+      display: inline-block;
+      animation: sway-vertical 3s ease-in-out infinite;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    @keyframes sway-vertical {
+      0%, 100% { transform: rotate(-5deg) translateY(0); }
+      50% { transform: rotate(5deg) translateY(-5px); }
+    }
+
+    .emoji-flowers span:hover {
+      animation-play-state: paused;
+      transform: scale(1.2) rotate(0deg) translateY(-10px);
+      box-shadow: 0 8px 15px rgba(230, 57, 70, 0.4);
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .emoji-text {
+      font-size: 32px;
+      margin-top: 10px;
+      animation: pulse 2s infinite;
+      color: #e63946;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    
+    .modal {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: #fffaf0;
+      padding: 25px 30px;
+      border-radius: 15px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      position: relative;
+      transform: scale(0.9);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .modal.active .modal-content {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 28px;
+      font-weight: bold;
+      color: #e63946;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .emoji-flowers span {
+        font-size: 50px;
+      }
+      .emoji-text {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  
+  <div class="welcome" id="welcome">
+    <h1>🌼 ¡Feliz día de las flores amarillas!</h1>
+    <button onclick="showMain()">Ver</button>
+  </div>
+
+  
+  <div id="main-content">
+    <div class="card">
+      <div class="emoji-row emoji-flowers">
+        <span data-note="Jeremías 29:11 — “Porque yo sé los planes que tengo para ustedes —afirma el SEÑOR—, planes de bienestar y no de calamidad“💫">🌻</span>
+        <span data-note="Isaías 43:4 — “Porque a mis ojos fuiste de gran valor, fuiste honorable, y yo te amé.” 😊">🌻</span>
+        <span data-note="1 Corintios 13 — “El amor nunca se da por vencido, jamás pierde la fe, siempre tiene esperanzas y se mantiene firme en toda circunstancia.” 🤍">🌻</span>
+      </div>
+      <div class="emoji-row emoji-flowers">
+        <span data-note="1 Juan 4:16 — “Dios es amor, y el que permanece en amor permanece en Dios, y Dios en él.”” 🕯️">🌻</span>
+        <span data-note="Colosenses 3:14 — “Y sobre todas estas cosas, vestíos de amor, que es el vínculo perfecto.” ✨">🌻</span>
+        <span data-note="1 Juan 4:18-19 — “En el amor no hay temor, sino que el perfecto amor echa fuera el temor... Nosotros amamos porque él nos amó primero.” 💕">🌻</span>
+        <span data-note="Josept 2025 👀 ¡Nunca dejes de brillar, eres una muchacha muy llena de Diosito! ¡Que esa luz de Diosito, nunca se apague en Teus! 🍓">🌻</span>
+      </div>
+
+      <h1>Esto es para ti, una personita muy especial</h1>
+      <div class="emoji-text">❤️</div>
+    </div>
+  </div>
+
+  
+  <div id="modal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <span id="modal-close" class="modal-close" aria-label="Cerrar ventana">&times;</span>
+      <p id="modal-text"></p>
+    </div>
+  </div>
+
+  <script>
+    
+    function showMain() {
+      document.getElementById('welcome').style.display = 'none';
+      const main = document.getElementById('main-content');
+      main.classList.add('visible');
+    }
+
+    
+    const modal = document.getElementById('modal');
+    const modalText = document.getElementById('modal-text');
+    const modalClose = document.getElementById('modal-close');
+
+    document.querySelectorAll('.emoji-flowers span').forEach(span => {
+      span.addEventListener('click', () => {
+        const note = span.getAttribute('data-note');
+        modalText.textContent = note;
+        modal.classList.add('active');
+      });
+    });
+
+    modalClose.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        modal.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
